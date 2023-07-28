@@ -11,8 +11,6 @@ import main2
 binance_api = "EtULk58JlMoLSuIMsMCDoz1aehGMpfBItU3Fvu5cj7Rm62KCkHDCidJsheVnGhYg"
 binance_secret = "NgJTBZBDcJH49ELK8LBV4NlafPSKQvTW3ZFKGeOvqMZrj61dePXgExMVH0KhOw1y"
 
-client = Client(binance_api, binance_secret)
-
 app = Flask(__name__)
 CORS(app)
 deals = []
