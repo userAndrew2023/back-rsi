@@ -20,10 +20,11 @@ proxies = [
 def gett(url, crypto, interval):
     try:
         candles = requests.get(url)
+        print(candles)
         arr = np.array([float(i[4]) for i in candles.json()])
         dict_[crypto][interval] = talib.RSI(arr, 14)[-1]
     except Exception as ee:
-        print(ee)
+        pass
 
 
 def price(url, crypto, interval):
