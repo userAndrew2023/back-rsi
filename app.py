@@ -1,12 +1,8 @@
-import threading
-
 import requests
-from binance import Client
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-import main
-import main2
+import data
 
 binance_api = "EtULk58JlMoLSuIMsMCDoz1aehGMpfBItU3Fvu5cj7Rm62KCkHDCidJsheVnGhYg"
 binance_secret = "NgJTBZBDcJH49ELK8LBV4NlafPSKQvTW3ZFKGeOvqMZrj61dePXgExMVH0KhOw1y"
@@ -25,8 +21,8 @@ users = {
 def readAll():
     s = request.args.get("symbol")
     if s is not None:
-        return main.dict_.get(s + "USDT")
-    return main.dict_
+        return data.dict_.get(s + "USDT")
+    return data.dict_
 
 
 @app.route("/getPrice")
@@ -53,29 +49,36 @@ def placeOrder():
 
 @app.route("/deals")
 def deals_func():
-    return jsonify(main2.deals)
+    return jsonify(data.deals)
+
+
+@app.route("/dealsSend")
+def send():
+    json = request.get_json()
+    data.deals = json
+    return "ok"
+
+
+@app.route("/dictSend")
+def dictSend():
+    json = request.get_json()
+    data.dict_ = json
+    return "ok"
 
 
 @app.route("/dealsRemove/<index>")
 def deals_func_rem(index: int):
-    return main2.deals.remove(index)
+    return "no"
 
 
-@app.route("/auth/login", methods=["POST"])
+@app.route("/login", methods=["POST"])
 def login():
     json = request.get_json()
     if json.get("login") in users:
         if json.get("password") == users.get(json.get("login")):
-            return True
-    return False
-
-
-def place_order(order_type, symbol, quantity):
-    order = client.create_order(symbol=symbol, side=order_type, type="MARKET", quantity=quantity)
-    return order
+            return {"status": "ok"}
+    return {"status": "access denied"}
 
 
 if __name__ == '__main__':
-    threading.Thread(target=main.main).start()
-    threading.Thread(target=main2.tracking).start()
     app.run(host="0.0.0.0")

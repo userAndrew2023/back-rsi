@@ -23,7 +23,7 @@ def gett(url, crypto, interval):
         print(candles)
         arr = np.array([float(i[4]) for i in candles.json()])
         dict_[crypto][interval] = talib.RSI(arr, 14)[-1]
-    except Exception as ee:
+    except Exception:
         pass
 
 
