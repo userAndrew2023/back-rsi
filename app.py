@@ -52,14 +52,7 @@ def deals_func():
     return jsonify(data.deals)
 
 
-@app.route("/dealsSend")
-def send():
-    json = request.get_json()
-    data.deals = json
-    return "ok"
-
-
-@app.route("/dictSend")
+@app.route("/dictSend", methods=['POST'])
 def dictSend():
     json = request.get_json()
     data.dict_ = json
